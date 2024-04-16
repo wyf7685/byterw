@@ -3,14 +3,12 @@ name = "byterw"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com"},
+    { name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com" },
 ]
-dependencies = [
-    "pydantic>=2.7.0",
-]
-requires-python = ">=3.12,<4.0"
+dependencies = ["pydantic>=2.7.0"]
+requires-python = ">=3.10,<4.0"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [build-system]
 requires = ["setuptools>=61", "wheel"]
@@ -23,4 +21,5 @@ distribution = true
 [tool.pdm.dev-dependencies]
 dev = [
     "setuptools>=69.5.1",
+    "mypy>=1.9.0",
 ]

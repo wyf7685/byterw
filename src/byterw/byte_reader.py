@@ -1,14 +1,13 @@
 from collections.abc import Buffer
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Set, Tuple, Type
-
-from pydantic import BaseModel
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar
 
 from .common import VT, ValidType
 from .crypt import decrypt
 from .mv2value import MemoryView2Value, mv2vt
 
+_T = TypeVar("_T")
 
 class ByteReader(object):
     __buffer: memoryview
@@ -19,8 +18,10 @@ class ByteReader(object):
     def any(self):
         return len(self.__buffer) != 0
 
-    def _read_with[T](self, call: Callable[[memoryview], Tuple[T, memoryview]]) -> T:
-        value, self.__buffer, _ = *call(self.__buffer), self.__buffer.release()
+    def _read_with(self, call: Callable[[memoryview], Tuple[_T, memoryview]]) -> _T:
+        value, buffer = call(self.__buffer)
+        self.__buffer.release()
+        self.__buffer = buffer
         return value
 
     def _read(self, vt: VT) -> Any:
@@ -63,7 +64,7 @@ class ByteReader(object):
     def read_path(self) -> Path:
         return self._read(VT.Path)
 
-    def read_model[T: BaseModel](self, __T: Type[T] = BaseModel) -> T:
+    def read_model(self, __T: Optional[type[_T]] = None) -> _T:
         return self._read(VT.Model)
 
     def read(self) -> ValidType:

@@ -112,7 +112,7 @@ def mv2model(m: memoryview) -> Tuple[BaseModel, memoryview]:
         parsed[field] = value
 
     attrs = {k: Field(default=parsed[k]) for k in fields} | {"__annotations__": fields}
-    Model = type(model_name, (BaseModel,), attrs)
+    Model: type[BaseModel] = type(model_name, (BaseModel,), attrs)
     return Model.model_validate(parsed), m
 
 

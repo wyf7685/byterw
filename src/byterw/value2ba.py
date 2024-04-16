@@ -1,4 +1,3 @@
-import functools
 import math
 import typing
 from base64 import b64encode
@@ -15,7 +14,6 @@ __GA = (getattr(typing, "_GenericAlias"), getattr(typing, "_SpecialGenericAlias"
 __VTT = (int, float, str, bytes, dict, list, set, datetime)  # type: ignore
 
 
-@functools.cache
 def t2vt(value: type) -> VT:
     if value is NoneType:
         return VT.Null

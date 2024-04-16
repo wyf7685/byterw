@@ -1,13 +1,12 @@
 from datetime import datetime
 from enum import IntEnum
 from pathlib import Path
-from typing import Any, Dict, List, Set, Union
-from types import NoneType
+from typing import Any, Dict, List, Set, Union, TypeAlias
 
 from pydantic import BaseModel
 
-type ValidType = Union[
-    NoneType,
+ValidType: TypeAlias = Union[
+    None,
     int,
     float,
     bool,

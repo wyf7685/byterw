@@ -4,9 +4,7 @@ import random
 import string
 from collections.abc import Buffer
 
-# gcc -o _crypt.cp312-win_amd64.pyd -shared -fPIC _crypt.c -I'C:\Program Files\Python312\include' -L'C:\Program Files\Python312\libs' -lpython312
-# gcc -o _crypt.so -shared -fPIC _crypt.c -I/usr/local/include/python3.12
-from . import _crypt  # type: ignore
+from . import _crypt
 
 
 @functools.cache
@@ -23,4 +21,4 @@ def encrypt(data: Buffer, *, key: str | int | None = None) -> bytes:
 
 
 def decrypt(data: Buffer, *, key: str | int | None = None) -> bytes:
-    return base64.b64decode(_crypt.decrypt(get_charset(key), data))
+    return base64.b64decode(_crypt.decrypt(get_charset(key), memoryview(data)))
