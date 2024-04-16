@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu, windows]
+        python-version: ["3.11", "3.12"]
+
+    name: "Build: ${{ matrix.os }} / ${{ matrix.python-version }}"
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: install
+        run: pip install -U build
+
+      - name: build
+        run: python -m build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: byterw-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: dist/
