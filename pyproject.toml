@@ -1,6 +1,6 @@
 [project]
 name = "byterw"
-version = "0.1.0"
+version = "0.1.1"
 description = "Default template for PDM package"
 authors = [
     { name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com" },
@@ -22,4 +22,5 @@ distribution = true
 dev = [
     "setuptools>=69.5.1",
     "mypy>=1.9.0",
+    "build>=1.2.1",
 ]
