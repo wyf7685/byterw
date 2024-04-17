@@ -21,11 +21,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: install
-        run: pip install -U pytest pdm
-      
+      - name: install pdm
+        run: pip install -U pdm
+
       - name: install package
-        run: pdm install --no-editable
+        run: pdm install --no-editable --dev
 
       - name: execute pytest
         run: pdm run pytest tests -vv
