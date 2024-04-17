@@ -9,25 +9,23 @@ on:
       - main
 
 jobs:
-  pytest:
+  tests:
     name: Run pytest
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up python
-        uses: actions/setup-python@v5
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
         with:
           python-version: "3.12"
+          cache: true
 
-      - name: install pdm
-        run: pip install -U pdm
-
-      - name: install package
+      - name: Install dependencies
         run: pdm install --no-editable --dev
 
-      - name: execute pytest
+      - name: Execute pytest
         run: pdm run pytest tests -vv
 
   build:
@@ -39,23 +37,23 @@ jobs:
     name: "Build: ${{ matrix.os }} / ${{ matrix.python-version }}"
     runs-on: ${{ matrix.os }}-latest
     needs:
-      - pytest
+      - tests
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: set up python
+      - name: Setup python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: install
-        run: pip install -U build
+      - name: Install and build
+        run: |
+          pip install -U build
+          python -m build
 
-      - name: build
-        run: python -m build
-
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: byterw-${{ matrix.os }}-py${{ matrix.python-version }}
           path: dist/
