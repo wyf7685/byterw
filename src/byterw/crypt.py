@@ -4,8 +4,7 @@ import random
 import string
 from collections.abc import Buffer
 
-from . import _crypt
-
+from byterw._crypt import encrypt as _encrypt, decrypt as _decrypt
 
 @functools.cache
 def get_charset(key: str | int | None = None) -> str:
@@ -17,8 +16,8 @@ def get_charset(key: str | int | None = None) -> str:
 
 
 def encrypt(data: Buffer, *, key: str | int | None = None) -> bytes:
-    return _crypt.encrypt(get_charset(key), base64.b64encode(data))
+    return _encrypt(get_charset(key), base64.b64encode(data))
 
 
 def decrypt(data: Buffer, *, key: str | int | None = None) -> bytes:
-    return base64.b64decode(_crypt.decrypt(get_charset(key), memoryview(data)))
+    return base64.b64decode(_decrypt(get_charset(key), bytes(data)))

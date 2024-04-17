@@ -19,7 +19,7 @@ static PyObject *encrypt(PyObject *self, PyObject *args) {
     return NULL;
   }
 
-  for (uint64_t i = 0; i < length; i++)
+  for (Py_ssize_t i = 0; i < length; i++)
     data[i] = (charset[_index_of(_basic_charset, data[i])] - 7685) % 256;
   PyObject *bytes_obj = PyBytes_FromStringAndSize(data, length);
   return bytes_obj;
@@ -33,7 +33,7 @@ static PyObject *decrypt(PyObject *self, PyObject *args) {
     return NULL;
   }
 
-  for (uint64_t i = 0; i < length; i++)
+  for (Py_ssize_t i = 0; i < length; i++)
     data[i] = _basic_charset[_index_of(charset, (data[i] + 7685) % 256)];
 
   PyObject *bytes_obj = PyBytes_FromStringAndSize(data, length);

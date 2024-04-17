@@ -9,6 +9,27 @@ on:
       - main
 
 jobs:
+  pytest:
+    name: Run pytest
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install
+        run: pip install -U pytest pdm
+      
+      - name: install package
+        run: pdm install --no-editable
+
+      - name: execute pytest
+        run: pytest tests -vv
+
   build:
     strategy:
       matrix:
@@ -17,6 +38,8 @@ jobs:
 
     name: "Build: ${{ matrix.os }} / ${{ matrix.python-version }}"
     runs-on: ${{ matrix.os }}-latest
+    needs:
+      - pytest
 
     steps:
       - uses: actions/checkout@v4
