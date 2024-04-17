@@ -2,45 +2,45 @@
 
 [`English`](https://github.com/wyf7685/byterw/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/README.zh.md)
 
-## Introduction
+## 简介
 
-[wyf7685](https://github.com/wyf7685)'s _personal_ encoding library.
+[wyf7685](https://github.com/wyf7685) _自用_ 编码库
 
-Encodes some common Python objects into bytes.
+将一些常用 Python 对象编码为 `bytes`
 
-~~The code is messy, not recommended for downloading and usage, for entertainment purposes only~~
+~~代码乱七八糟，不建议下载使用，仅供娱乐~~
 
-## Installation
+## 安装
 
-As this project is mainly for _personal_ use, it has not been published to PyPI.
+由于本项目主要为 _自用_ , 故未发布至 `PyPI`.
 
-You can install the module byterw in the following ways:
+可通过以下方式安装模块 `byterw`
 
-- Install from precompiled wheel package
+- 从预编译的 wheel 包安装
 
-1. Download the precompiled wheel package for your system from Release or Actions.
+  1. 从 [`Release`](https://github.com/wyf7685/byterw/releases) 或 [`Actions`](https://github.com/wyf7685/byterw/actions) 下载环境对应系统的预编译 wheel 包。
 
-2. Execute the pip command to install the wheel package
+  2. 执行 `pip` 命令安装 wheel 包
 
 ```sh
 pip install byterw-*.whl
 ```
 
-- Install from source code compilation
+- 从源码编译安装
 
-> Note: This method requires configuring a C compiler on your system
+> 注意: 该方式需要在你的系统上配置 C 编译器
 
 ```sh
 pip install git+https://github.com/wyf7685/byterw.git@main
 ```
 
-## Usage
+## 使用
 
-The `byterw` module provides two main types: `ByteReader` and `ByteWriter`.
+`byterw` 模块提供两个主要类型: `ByteReader` 和 `ByteWriter`
 
-Supports reading and writing of a total of 12 types (including nested types): `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
+支持共计 12 种类型(及嵌套)的读写: `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
 
-Usage examples:
+使用示例：
 
 ```python
 from datetime import datetime
@@ -49,10 +49,10 @@ from pydantic import BaseModel
 
 from byterw import ByteReader, ByteWriter
 
-# KEY for simple encryption
+# 用于简单加密的KEY
 KEY = "SOME_KEY"
 
-# Define a model for testing
+# 定义用于测试的 Model
 class InnerModel(BaseModel):
     mInt: int
     mBool: bool
@@ -67,10 +67,10 @@ class Model(BaseModel):
     mPath: Path
 ```
 
-Example of writing:
+写入示例
 
 ```python
-# Create a ByteWriter using KEY
+# 使用 KEY 创建一个 ByteWriter
 writer = ByteWriter(key=KEY)
 
 writer.write_int(114514)
@@ -100,14 +100,14 @@ writer.write_model(
     )
 )
 
-# Encode all written data and output
+# 将写入的所有数据编码输出
 data = writer.get()
 ```
 
-Example of reading:
+读取示例
 
 ```python
-# Create ByteReader using KEY and decode data
+# 使用 KEY 创建 ByteReader 并解码数据
 reader = ByteReader(data, KEY)
 
 print(reader.read_int())  # 114514
@@ -121,10 +121,10 @@ print(reader.read_set())  # {0, 1, 2, 3, 4}
 print(reader.read_datetime())  # datetime.datetime(2024, 1, 1, 0, 0)
 print(reader.read_path())  # PosixPath('somefile.txt')
 print(reader.read_model())  # ...
-print(reader.read_int())  # ValueError: No more data to read
+print(reader.read_int())  # ValueError: 没有可供读取的内容
 ```
 
-If you can determine the data type being accessed, you can also use a shorter syntax:
+如果可以确定正在存取的数据类型, 也可以使用更简短的写法:
 
 ```python
 writer = ByteWriter(KEY)
@@ -137,7 +137,7 @@ while reader.any():
     print(reader.read(), end=' ')  # 0 1 2 ...
 ```
 
-For `ByteWriter`, you can also achieve chain operations as follows:
+对于 `ByteWriter`, 还可以做到如下所示的链式操作:
 
 ```python
 Path("somedata").write_bytes(
@@ -145,35 +145,35 @@ Path("somedata").write_bytes(
 )
 ```
 
-## Building
+## 构建
 
-If you need to build `byterw` yourself, you can follow these steps
+如果需要自行构建 `byterw`, 可以参考如下步骤
 
-> Note: As the project uses C to implement some logic, building the module requires installing a C compiler locally
+> 注: 由于项目使用 C 实现部分逻辑, 构建模块需要在本地安装 C 编译器
 
-1. Install Python and configure environment variables
+1. 安装 `Python` 并配置环境变量
 
-2. Install package manager `pdm`
+2. 安装 包管理工具 `pdm`
 
 ```sh
 pip install -U pdm
 ```
 
-3. Clone this repository from Github
+3. 从 Github 克隆此仓库
 
 ```sh
 git clone https://github.com/wyf7685/byterw.git
 cd byterw
 ```
 
-4. Build the wheel package
+4. 构建 wheel 包
 
 ```sh
 pdm build
 ```
 
-After a while, the wheel package corresponding to the platform will be generated in the `dist` directory
+等待片刻后, `dist` 目录下生成平台对应的 wheel 包
 
-## Contributors
+## 贡献者
 
 ![Contributors](https://contrib.rocks/image?repo=wyf7685/byterw)

@@ -1,7 +1,7 @@
 [project]
 name = "byterw"
 version = "0.1.1"
-description = "Default template for PDM package"
+description = "En(De)crypt Python objects into bytes"
 authors = [
     { name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com" },
 ]
