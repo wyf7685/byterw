@@ -1,6 +1,6 @@
-from .dataset import VT, get_test_case
-
 from byterw import ByteReader, ByteWriter
+
+from .dataset import VT, get_test_case
 
 
 def test_set():
