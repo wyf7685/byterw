@@ -1,5 +1,9 @@
 # byterw
 
+![build](https://github.com/wyf7685/byterw/actions/workflows/build.yml/badge.svg)
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/wyf7685/byterw.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/wyf7685/byterw)
+[![license](https://img.shields.io/github/license/wyf7685/byterw.svg)](https://github.com/wyf7685/byterw/blob/main/LICENSE)
+
 [`English`](https://github.com/wyf7685/byterw/blob/main/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/blob/main/README.zh.md)
 
 ## 简介

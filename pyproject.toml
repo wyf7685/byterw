@@ -28,6 +28,13 @@ dev = [
 ]
 
 [tool.pdm.scripts]
-test = "coverage run --source byterw -m pytest tests"
-report = "coverage report --fail-under 100"
-strict_test = { composite = ["test", "report"] }
+coverage_test = "coverage run --source byterw -m pytest tests"
+coverage_report = "coverage report --fail-under 100"
+coverage_xml = "coverage xml"
+mypy_check = "mypy src/byterw"
+test = { composite = [
+    "mypy_check",
+    "coverage_test",
+    "coverage_report",
+    "coverage_xml",
+] }
