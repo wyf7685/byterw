@@ -22,16 +22,16 @@ distribution = true
 dev = [
     "setuptools>=69.5.1",
     "mypy>=1.9.0",
-    "build>=1.2.1",
     "pytest>=8.1.1",
     "coverage>=7.4.4",
 ]
 
 [tool.pdm.scripts]
+instdev = "pdm install --no-editable --dev"
+mypy_check = "mypy src/byterw"
 coverage_test = "coverage run --source byterw -m pytest tests"
 coverage_report = "coverage report --fail-under 100"
 coverage_xml = "coverage xml"
-mypy_check = "mypy src/byterw"
 test = { composite = [
     "mypy_check",
     "coverage_test",
