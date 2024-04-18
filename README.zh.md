@@ -1,6 +1,6 @@
 # byterw
 
-[`English`](https://github.com/wyf7685/byterw/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/README.zh.md)
+[`English`](https://github.com/wyf7685/byterw/blob/main/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/blob/main/README.zh.md)
 
 ## 简介
 
