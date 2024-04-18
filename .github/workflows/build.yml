@@ -5,9 +5,10 @@ on:
     branches:
       - main
     paths:
-      - src/
-      - C/
-      - tests/
+      - .github/**
+      - src/**
+      - C/**
+      - tests/**
       - pdm.lock
       - pyproject.toml
       - setup.py
@@ -33,7 +34,7 @@ jobs:
         run: pdm install --no-editable --dev
 
       - name: Execute pytest
-        run: pdm run pytest tests -vv
+        run: pdm run strict_test
 
   build:
     strategy:
