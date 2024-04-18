@@ -10,7 +10,12 @@ from pydantic import BaseModel
 
 from .common import VT, ValidType
 
-__GA = (getattr(typing, "_GenericAlias"), getattr(typing, "_SpecialGenericAlias"))
+__UGA = getattr(typing, "_UnionGenericAlias")  # typing.Union
+__GA = (
+    getattr(typing, "GenericAlias"),  # list[str]
+    getattr(typing, "_GenericAlias"),  # typing.List[str]
+    getattr(typing, "_SpecialGenericAlias"),  # ...?
+)
 __VTT = (int, float, str, bytes, dict, list, set, datetime)  # type: ignore
 
 
@@ -18,12 +23,14 @@ def t2vt(value: type) -> VT:
     if value is NoneType:
         return VT.Null
 
-    if isinstance(value, __GA):
+    if isinstance(value, __UGA):
+        value = getattr(value, "__args__")[0]  # ignore other args..?
+    elif isinstance(value, __GA):
         value = getattr(value, "__origin__")
     elif isinstance(value, UnionType):
-        value = getattr(value, "__args__")[0]
+        value = getattr(value, "__args__")[0]  # ignore other args..?
     elif isinstance(value, TypeAliasType):
-        return VT.Str
+        return VT.Str  # pragma: no cover
 
     if issubclass(value, bool):
         return VT.Bool
@@ -33,7 +40,7 @@ def t2vt(value: type) -> VT:
         return getattr(VT, value.__name__.capitalize())
     elif issubclass(value, BaseModel):
         return VT.Model
-    raise ValueError(f"{value!r} is not a valid ValueType")
+    raise TypeError(f"{value!r} is not a valid ValueType")
 
 
 def none2ba(_: None) -> bytearray:
@@ -121,7 +128,7 @@ def model2ba(value: BaseModel) -> bytearray:
     for field in sorted(value.model_fields.keys()):
         anno = value.model_fields[field].annotation
         if anno is None:
-            raise ValueError(f"Model {type(value)} field {field} has no annotation")
+            raise ValueError(f"Model {type(value)} field {field} has no annotation")  # pragma: no cover
 
         vt = t2vt(anno)
         b.extend(str2ba(field))
