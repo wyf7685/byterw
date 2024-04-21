@@ -32,6 +32,9 @@ jobs:
 
       - name: Run tests
         run: pdm test
+      
+      - name: Generate xml report
+        run: pdm run coverage xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4

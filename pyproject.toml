@@ -28,13 +28,8 @@ dev = [
 
 [tool.pdm.scripts]
 instdev = "pdm install --no-editable --dev"
-mypy_check = "mypy src/byterw"
-coverage_test = "coverage run --source byterw -m pytest tests"
-coverage_report = "coverage report --fail-under 100"
-coverage_xml = "coverage xml"
 test = { composite = [
-    "mypy_check",
-    "coverage_test",
-    "coverage_report",
-    "coverage_xml",
+    "mypy src/byterw",
+    "coverage run --source byterw -m pytest tests",
+    "coverage report --fail-under 100",
 ] }

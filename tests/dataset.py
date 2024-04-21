@@ -1,7 +1,8 @@
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
-from random import choice, randbytes, randint, uniform, sample
+from random import choice, randbytes, randint, sample, uniform
+from typing import Any
 
 from pydantic import BaseModel
 
@@ -80,5 +81,5 @@ TEST_CASE[VT.Model] = [
 ]
 
 
-def get_test_case(vt: VT) -> list:
+def get_test_case(vt: VT) -> list[Any]:
     return deepcopy(TEST_CASE[vt])
