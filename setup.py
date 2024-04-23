@@ -3,7 +3,7 @@ from setuptools import Extension, setup
 
 extension = Extension(
     "byterw._crypt",
-    sources=["C/_crypt.c"],
+    sources=["C/_crypt.cpp"],
 )
 
 setup(

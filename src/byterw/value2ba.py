@@ -128,7 +128,9 @@ def model2ba(value: BaseModel) -> bytearray:
     for field in sorted(value.model_fields.keys()):
         anno = value.model_fields[field].annotation
         if anno is None:
-            raise ValueError(f"Model {type(value)} field {field} has no annotation")  # pragma: no cover
+            raise ValueError(
+                f"Model {type(value)} field {field} has no annotation"
+            )  # pragma: no cover
 
         vt = t2vt(anno)
         b.extend(str2ba(field))
