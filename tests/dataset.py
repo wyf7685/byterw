@@ -6,7 +6,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from byterw import VT
+from byterw import value_type as VT
 
 CASE_NUM = 1000
 INT_RANGE = 1 << 15

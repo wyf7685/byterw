@@ -1,3 +1,5 @@
+# See C/common.h
+
 Null = 0
 Int = 1
 Float = 2
