@@ -14,6 +14,7 @@ extensions = [
             "C/reader.cpp",
             "C/pyreader.cpp",
         ],
+        include_dirs=["C/"],
     ),
 ]
 
