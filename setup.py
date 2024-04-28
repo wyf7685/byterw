@@ -1,5 +1,11 @@
+import platform
+
 from setuptools import Extension, setup
 
+if platform.system() == "Windows":
+    cxx_std_arg = "/std:c++17"
+else:
+    cxx_std_arg = "-std=c++17"
 
 extensions = [
     Extension(
@@ -15,6 +21,7 @@ extensions = [
             "C/pyreader.cpp",
         ],
         include_dirs=["./C/"],
+        extra_compile_args=[cxx_std_arg],
     ),
 ]
 
