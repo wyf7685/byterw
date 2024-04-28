@@ -1,5 +1,5 @@
-from .byte_reader import ByteReader as ByteReader
-from .byte_writer import ByteWriter as ByteWriter
+from byterw._byterw import ByteReader, ByteWriter
+from byterw import value_type as VT
 
 __all__ = ["ByteReader", "ByteWriter"]
 __version__ = "0.1.1"

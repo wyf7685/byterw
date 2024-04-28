@@ -6,7 +6,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from byterw.common import VT
+from byterw import VT
 
 CASE_NUM = 1000
 INT_RANGE = 1 << 15
@@ -81,5 +81,5 @@ TEST_CASE[VT.Model] = [
 ]
 
 
-def get_test_case(vt: VT) -> list[Any]:
+def get_test_case(vt: int) -> list[Any]:
     return deepcopy(TEST_CASE[vt])
