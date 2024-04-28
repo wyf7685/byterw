@@ -153,9 +153,9 @@ static PyObject *any(ByteReader *self, PyObject *args) {
 
 // ========== Method end ==========
 
-static PyMemberDef members[] = {
-    {nullptr}, /* Sentinel */
-};
+// static PyMemberDef members[] = {
+//     {nullptr}, /* Sentinel */
+// };
 
 static PyMethodDef methods[] = {
     {"read_none", (PyCFunction)read_none, METH_NOARGS},
@@ -184,7 +184,7 @@ void init(PyTypeObject *TypeObject) {
   // TypeObject->tp_repr = (reprfunc)repr;
   TypeObject->tp_flags = Py_TPFLAGS_DEFAULT;
   TypeObject->tp_methods = methods;
-  TypeObject->tp_members = members;
+  // TypeObject->tp_members = members;
   TypeObject->tp_new = ByteReader_new;
 }
 

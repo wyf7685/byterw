@@ -3,9 +3,9 @@ import platform
 from setuptools import Extension, setup
 
 if platform.system() == "Windows":
-    cxx_std_arg = "/std:c++17"
+    cxx_std_arg = "/std:c++20"
 else:
-    cxx_std_arg = "-std=c++17"
+    cxx_std_arg = "-std=c++20"
 
 extensions = [
     Extension(
