@@ -14,13 +14,13 @@ extensions = [
             "C/reader.cpp",
             "C/pyreader.cpp",
         ],
-        include_dirs=["C/"],
+        include_dirs=["./C/"],
     ),
 ]
 
 setup(
     name="byterw",
-    version="1.0",
+    version="0.2.0",
     description="byterw module by wyf7685",
     author="wyf7685",
     author_email="69091901+wyf7685@users.noreply.github.com",

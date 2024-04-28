@@ -1,6 +1,6 @@
 [project]
 name = "byterw"
-version = "0.1.1"
+version = "0.2.0"
 description = "En(De)crypt Python objects into bytes"
 authors = [
     { name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com" },
