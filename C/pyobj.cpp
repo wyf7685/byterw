@@ -1,6 +1,4 @@
 #include "pyobj.h"
-#include "object.h"
-#include "tupleobject.h"
 
 #include <unordered_map>
 

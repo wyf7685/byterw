@@ -1,7 +1,5 @@
 #include "reader.h"
-#include "object.h"
 #include "pyobj.h"
-#include "pytypedefs.h"
 
 namespace byterw::reader::inner {
 

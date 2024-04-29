@@ -2,7 +2,7 @@
 
 #include "buffer.h"
 #include "common.h"
-#include "pytypedefs.h"
+
 #include <cstddef>
 
 namespace byterw::reader::inner {

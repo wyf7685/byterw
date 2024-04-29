@@ -1,9 +1,6 @@
 #include "pywriter.h"
 #include "crypt.h"
-#include "floatobject.h"
-#include "longobject.h"
 #include "pyobj.h"
-#include "tupleobject.h"
 #include "writer.h"
 
 #include <memory>

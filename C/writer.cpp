@@ -1,10 +1,7 @@
 #include "writer.h"
 #include "buffer.h"
 #include "common.h"
-#include "modsupport.h"
-#include "pyerrors.h"
 #include "pyobj.h"
-#include "pyport.h"
 
 #include <string>
 
