@@ -44,6 +44,14 @@ TEST_CASE[VT.Set] = [
     for _ in range(CASE_NUM)
 ]
 
+TEST_CASE[VT.Tuple] = [
+    tuple(
+        [val for val in sample(TEST_CASE[VT.Int], SAMPLE_K)]
+        + [val for val in sample(TEST_CASE[VT.Str], SAMPLE_K)]
+    )
+    for _ in range(CASE_NUM)
+]
+
 TEST_CASE[VT.Datetime] = [datetime.now() for _ in range(CASE_NUM)]
 
 TEST_CASE[VT.Path] = [Path(choice(TEST_CASE[VT.Str])) for _ in range(CASE_NUM)]

@@ -133,6 +133,31 @@ BYTERW_NO_DISCARD int BWriter::write_set(PyObject *value) {
   return 0;
 }
 
+BYTERW_NO_DISCARD int BWriter::write_tuple(PyObject *value) {
+  long length = PyTuple_Size(value);
+  if (write_long(length) < 0)
+    return -1;
+
+  PyObject *iter = PyObject_GetIter(value);
+  PyObject *item;
+
+  if (!iter) {
+    PyErr_SetString(PyExc_ValueError, "Failed getting iter of tuple");
+    return -1;
+  }
+
+  while ((item = PyIter_Next(iter))) {
+    Py_DECREF(item);
+    if (write_object(item, true) < 0) {
+      Py_DECREF(iter);
+      return -1;
+    }
+  }
+
+  Py_DECREF(iter);
+  return 0;
+}
+
 BYTERW_NO_DISCARD int BWriter::write_datetime(PyObject *value) {
   PyObject *timestamp =
       PyObject_CallMethodNoArgs(value, PyUnicode_FromString("timestamp"));
@@ -212,6 +237,9 @@ BYTERW_NO_DISCARD int BWriter::write_object(PyObject *obj, bool with_sign) {
   case ValueType::Set: // set
     return write_set(obj);
 
+  case ValueType::Tuple: // tuple
+    return write_tuple(obj);
+
   case ValueType::Path: // pathlib.Path
     return write_path(obj);
 
@@ -262,6 +290,8 @@ static ValueType get_vt(PyObject *obj) {
     return ValueType::List;
   else if (check(&PySet_Type))
     return ValueType::Set;
+  else if (check(&PyTuple_Type))
+    return ValueType::Tuple;
   else if (check(pyobj::load(pyobj::Path)))
     return ValueType::Path;
   else if (check(pyobj::load(pyobj::datetime)))

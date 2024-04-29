@@ -27,6 +27,7 @@ public:
   PyObject *read_dict();
   PyObject *read_list();
   PyObject *read_set();
+  PyObject *read_tuple();
   PyObject *read_datetime();
   PyObject *read_path();
   PyObject *read_model();

@@ -198,6 +198,22 @@ static PyObject *write_set(ByteWriter *self, PyObject *args) {
   return (PyObject *)self;
 }
 
+static PyObject *write_tuple(ByteWriter *self, PyObject *args) {
+  PyObject *obj;
+
+  if (!PyArg_ParseTuple(args, "O!", &PyTuple_Type, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "obj should be tuple");
+    return nullptr;
+  }
+
+  self->writer->write_sign(ValueType::Tuple);
+  if (self->writer->write_tuple(obj) < 0)
+    return nullptr;
+
+  Py_INCREF(self);
+  return (PyObject *)self;
+}
+
 static PyObject *write_datetime(ByteWriter *self, PyObject *args) {
   PyObject *obj;
 
@@ -292,6 +308,7 @@ static PyMethodDef methods[] = {
     {"write_dict", (PyCFunction)write_dict, METH_VARARGS},
     {"write_list", (PyCFunction)write_list, METH_VARARGS},
     {"write_set", (PyCFunction)write_set, METH_VARARGS},
+    {"write_tuple", (PyCFunction)write_tuple, METH_VARARGS},
     {"write_datetime", (PyCFunction)write_datetime, METH_VARARGS},
     {"write_path", (PyCFunction)write_path, METH_VARARGS},
     {"write_model", (PyCFunction)write_model, METH_VARARGS},

@@ -1,5 +1,7 @@
 #include "reader.h"
+#include "object.h"
 #include "pyobj.h"
+#include "pytypedefs.h"
 
 namespace byterw::reader::inner {
 
@@ -23,6 +25,8 @@ PyObject *vt2t(ValueType vt) {
     return (PyObject *)&PyList_Type;
   case byterw::ValueType::Set:
     return (PyObject *)&PySet_Type;
+  case byterw::ValueType::Tuple:
+    return (PyObject *)&PyTuple_Type;
   case byterw::ValueType::Datetime:
     return pyobj::load(pyobj::datetime);
   case byterw::ValueType::Path:
@@ -183,6 +187,30 @@ PyObject *BReader::read_set() {
   return PySet_New(pylist);
 }
 
+PyObject *BReader::read_tuple() {
+  Py_ssize_t length = read_struct_length();
+  if (length < 0)
+    return nullptr;
+
+  PyObject *pytuple = PyTuple_New(length);
+  for (Py_ssize_t i = 0; i < length; ++i) {
+    PyObject *obj = read_object(read_sign());
+    if (obj == nullptr) {
+      Py_DECREF(pytuple);
+      PyErr_SetString(PyExc_RuntimeError, "Error reading tuple item");
+      return nullptr;
+    }
+    if (PyTuple_SetItem(pytuple, i, obj) < 0) {
+      Py_DECREF(pytuple);
+      Py_DECREF(obj);
+      PyErr_SetString(PyExc_RuntimeError, "Error setting tuple item");
+      return nullptr;
+    }
+  }
+
+  return pytuple;
+}
+
 PyObject *BReader::read_datetime() {
   PyObject *pyfloat_timestamp = read_double();
   if (pyfloat_timestamp == nullptr) {
@@ -294,6 +322,8 @@ PyObject *BReader::read_object(ValueType vt) {
     return read_list();
   case byterw::ValueType::Set:
     return read_set();
+  case byterw::ValueType::Tuple:
+    return read_tuple();
   case byterw::ValueType::Datetime:
     return read_datetime();
   case byterw::ValueType::Path:

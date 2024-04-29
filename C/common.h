@@ -22,6 +22,7 @@ enum class ValueType {
   Dict,
   List,
   Set,
+  Tuple,
   Datetime,
   Path,
   Model,

@@ -27,6 +27,7 @@ public:
   BYTERW_NO_DISCARD int write_dict(PyObject *value);
   BYTERW_NO_DISCARD int write_list(PyObject *value);
   BYTERW_NO_DISCARD int write_set(PyObject *value);
+  BYTERW_NO_DISCARD int write_tuple(PyObject *value);
   BYTERW_NO_DISCARD int write_datetime(PyObject *value);
   BYTERW_NO_DISCARD int write_path(PyObject *value);
   BYTERW_NO_DISCARD int write_model(PyObject *value);

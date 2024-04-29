@@ -121,6 +121,12 @@ static PyObject *read_set(ByteReader *self, PyObject *args) {
   return self->reader->read_object(sign);
 }
 
+static PyObject *read_tuple(ByteReader *self, PyObject *args) {
+  CHECK_BUFFER_READABLE();
+  CHECK_VT(ValueType::Tuple);
+  return self->reader->read_object(sign);
+}
+
 static PyObject *read_datetime(ByteReader *self, PyObject *args) {
   CHECK_BUFFER_READABLE();
   CHECK_VT(ValueType::Datetime);
@@ -167,6 +173,7 @@ static PyMethodDef methods[] = {
     {"read_dict", (PyCFunction)read_dict, METH_NOARGS},
     {"read_list", (PyCFunction)read_list, METH_NOARGS},
     {"read_set", (PyCFunction)read_set, METH_NOARGS},
+    {"read_tuple", (PyCFunction)read_tuple, METH_NOARGS},
     {"read_datetime", (PyCFunction)read_datetime, METH_NOARGS},
     {"read_path", (PyCFunction)read_path, METH_NOARGS},
     {"read_model", (PyCFunction)read_model, METH_VARARGS},

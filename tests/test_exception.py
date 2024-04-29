@@ -6,17 +6,24 @@ from byterw import ByteReader, ByteWriter
 
 
 def test_not_readable():
-    with pytest.raises(ValueError):
-        ByteReader(b"").read()
+    # C/pyreader.cpp:54
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as exc_info:
+        ByteReader(b"").read()
+    assert exc_info.type is ValueError
+
+    with pytest.raises(ValueError) as exc_info:
         ByteReader(b"").read_int()
+    assert exc_info.type is ValueError
 
 
 def test_read_err_vt():
+    # C/pyreader.cpp:60
+
     data = ByteWriter().write("123").get()
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError) as exc_info:
         ByteReader(data).read_int()
+    assert exc_info.type is TypeError
 
 
 class ModelA(BaseModel):
@@ -39,10 +46,12 @@ def test_special_vt():
 
 
 class ModelB(BaseModel):
-    mError: tuple
+    mError: object
 
 
 def test_error_vt():
-    model = ModelB(mError=tuple("byterw"))
-    with pytest.raises(TypeError):
+    model = ModelB(mError=object())
+    with pytest.raises(TypeError) as exc_info:
         ByteWriter().write(model).get()
+
+    assert exc_info.type is TypeError
