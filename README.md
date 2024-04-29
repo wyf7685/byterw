@@ -42,9 +42,9 @@ pip install git+https://github.com/wyf7685/byterw.git@main
 
 The `byterw` module provides two main types: `ByteReader` and `ByteWriter`.
 
-Supports reading and writing of a total of 12 types (including nested types): `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
+Supports reading and writing of a total of 13 types (including nested types): `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `tuple`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
 
-Usage examples:
+Examples:
 
 ```python
 from datetime import datetime
@@ -78,16 +78,16 @@ Example of writing:
 writer = ByteWriter(key=KEY)
 
 writer.write_int(114514)
-writer.write_float(1 / 3, precision=6)
+writer.write_float(1 / 3, 6)  # write 1/3 with precision=6
 writer.write_bool(True)
 writer.write_string("Python")
 writer.write_bytes(b"byterw")
 writer.write_dict({"key": "value"})
 writer.write_list([114514, 1919810, False, "wyf7685"])
 writer.write_set(set(range(5)))
+writer.write_tuple(tuple("byterw"))
 writer.write_datetime(datetime(2024, 1, 1))
 writer.write_path(Path("somefile.txt"))
-
 
 writer.write_model(
     Model(
@@ -122,6 +122,7 @@ print(reader.read_bytes())  # b'byterw'
 print(reader.read_dict())  # {'key': 'value'}
 print(reader.read_list())  # [114514, 1919810, False, 'wyf7685']
 print(reader.read_set())  # {0, 1, 2, 3, 4}
+print(reader.read_tuple())  # ('b', 'y', 't', 'e', 'r', 'w')
 print(reader.read_datetime())  # datetime.datetime(2024, 1, 1, 0, 0)
 print(reader.read_path())  # PosixPath('somefile.txt')
 print(reader.read_model())  # ...

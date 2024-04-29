@@ -42,7 +42,7 @@ pip install git+https://github.com/wyf7685/byterw.git@main
 
 `byterw` 模块提供两个主要类型: `ByteReader` 和 `ByteWriter`
 
-支持共计 12 种类型(及嵌套)的读写: `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
+支持共计 13 种类型(及嵌套)的读写: `None`, `int`, `float`, `bool`, `str`, `bytes`, `dict`, `list`, `set`, `tuple`, `datetime`, `pathlib.Path`, `pydantic.BaseModel`
 
 使用示例：
 
@@ -78,16 +78,16 @@ class Model(BaseModel):
 writer = ByteWriter(key=KEY)
 
 writer.write_int(114514)
-writer.write_float(1 / 3, precision=6)
+writer.write_float(1 / 3, 6)  # 写入 1/3 并保留 6 位小数
 writer.write_bool(True)
 writer.write_string("Python")
 writer.write_bytes(b"byterw")
 writer.write_dict({"key": "value"})
 writer.write_list([114514, 1919810, False, "wyf7685"])
 writer.write_set(set(range(5)))
+writer.write_tuple(tuple("byterw"))
 writer.write_datetime(datetime(2024, 1, 1))
 writer.write_path(Path("somefile.txt"))
-
 
 writer.write_model(
     Model(
@@ -122,6 +122,7 @@ print(reader.read_bytes())  # b'byterw'
 print(reader.read_dict())  # {'key': 'value'}
 print(reader.read_list())  # [114514, 1919810, False, 'wyf7685']
 print(reader.read_set())  # {0, 1, 2, 3, 4}
+print(reader.read_tuple())  # ('b', 'y', 't', 'e', 'r', 'w')
 print(reader.read_datetime())  # datetime.datetime(2024, 1, 1, 0, 0)
 print(reader.read_path())  # PosixPath('somefile.txt')
 print(reader.read_model())  # ...
@@ -141,7 +142,7 @@ while reader.any():
     print(reader.read(), end=' ')  # 0 1 2 ...
 ```
 
-对于 `ByteWriter`, 还可以做到如下所示的链式操作:
+对于 `ByteWriter`, 还可以使用如下所示的链式操作:
 
 ```python
 Path("somedata").write_bytes(
