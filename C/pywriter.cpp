@@ -3,7 +3,7 @@
 #include "pyobj.h"
 #include "writer.h"
 
-#include <memory>
+#include <memory> // std::unique_ptr
 
 namespace byterw::writer {
 using inner::BWriter;
@@ -58,7 +58,7 @@ static PyObject *write_int(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Int);
-  if (self->writer->write_long(value) < 0)
+  if (!self->writer->write_long(value))
     return nullptr;
 
   Py_INCREF(self);
@@ -90,7 +90,7 @@ static PyObject *write_float(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Float);
-  if (self->writer->write_double(value, precision) < 0)
+  if (!self->writer->write_double(value, precision))
     return nullptr;
 
   Py_INCREF(self);
@@ -106,7 +106,7 @@ static PyObject *write_bool(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Bool);
-  if (self->writer->write_bool(Py_IsTrue(obj)) < 0)
+  if (!self->writer->write_bool(Py_IsTrue(obj)))
     return nullptr;
 
   Py_INCREF(self);
@@ -123,7 +123,7 @@ static PyObject *write_string(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Str);
-  if (self->writer->write_bytes(str, length) < 0)
+  if (!self->writer->write_bytes(str, length))
     return nullptr;
 
   Py_INCREF(self);
@@ -140,7 +140,7 @@ static PyObject *write_bytes(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Bytes);
-  if (self->writer->write_bytes(str, length) < 0)
+  if (!self->writer->write_bytes(str, length))
     return nullptr;
 
   Py_INCREF(self);
@@ -156,7 +156,7 @@ static PyObject *write_dict(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Dict);
-  if (self->writer->write_dict(obj) < 0)
+  if (!self->writer->write_dict(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -172,7 +172,7 @@ static PyObject *write_list(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::List);
-  if (self->writer->write_list(obj) < 0)
+  if (!self->writer->write_list(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -188,7 +188,7 @@ static PyObject *write_set(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Set);
-  if (self->writer->write_set(obj) < 0)
+  if (!self->writer->write_set(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -204,7 +204,7 @@ static PyObject *write_tuple(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Tuple);
-  if (self->writer->write_tuple(obj) < 0)
+  if (!self->writer->write_tuple(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -220,7 +220,7 @@ static PyObject *write_datetime(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Datetime);
-  if (self->writer->write_datetime(obj) < 0)
+  if (!self->writer->write_datetime(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -236,7 +236,7 @@ static PyObject *write_path(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Path);
-  if (self->writer->write_path(obj))
+  if (!self->writer->write_path(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -259,7 +259,7 @@ static PyObject *write_model(ByteWriter *self, PyObject *args) {
   }
 
   self->writer->write_sign(ValueType::Model);
-  if (self->writer->write_model(obj) < 0)
+  if (!self->writer->write_model(obj))
     return nullptr;
 
   Py_INCREF(self);
@@ -275,7 +275,7 @@ static PyObject *write(ByteWriter *self, PyObject *args) {
     return nullptr;
   }
 
-  if (self->writer->write_object(obj, true) < 0)
+  if (!self->writer->write_object(obj, true))
     return nullptr;
 
   Py_INCREF(self);
@@ -283,8 +283,8 @@ static PyObject *write(ByteWriter *self, PyObject *args) {
 }
 
 static PyObject *get(ByteWriter *self, PyObject *args) {
-  const unsigned char *data = self->writer->buffer.get();
-  std::size_t size = self->writer->buffer.size();
+  const unsigned char *data = self->writer->get();
+  std::size_t size = self->writer->size();
   auto bytes = PyBytes_FromStringAndSize((char *)data, size);
   return bytes ? crypt::encrypt(bytes, self->key) : nullptr;
 }
@@ -295,26 +295,33 @@ static PyObject *get(ByteWriter *self, PyObject *args) {
 //     {nullptr}, /* Sentinel */
 // };
 
+#define NewMethodDef(identifier, flag)                                         \
+  { #identifier, (PyCFunction)identifier, flag }
+
 static PyMethodDef methods[] = {
-    {"write_none", (PyCFunction)write_none, METH_VARARGS},
-    {"write_int", (PyCFunction)write_int, METH_VARARGS},
-    {"write_float", (PyCFunction)write_float, METH_VARARGS},
-    {"write_bool", (PyCFunction)write_bool, METH_VARARGS},
-    {"write_string", (PyCFunction)write_string, METH_VARARGS},
-    {"write_bytes", (PyCFunction)write_bytes, METH_VARARGS},
-    {"write_dict", (PyCFunction)write_dict, METH_VARARGS},
-    {"write_list", (PyCFunction)write_list, METH_VARARGS},
-    {"write_set", (PyCFunction)write_set, METH_VARARGS},
-    {"write_tuple", (PyCFunction)write_tuple, METH_VARARGS},
-    {"write_datetime", (PyCFunction)write_datetime, METH_VARARGS},
-    {"write_path", (PyCFunction)write_path, METH_VARARGS},
-    {"write_model", (PyCFunction)write_model, METH_VARARGS},
-    {"write", (PyCFunction)write, METH_VARARGS},
-    {"get", (PyCFunction)get, METH_NOARGS},
+    NewMethodDef(write_none, METH_VARARGS),
+    NewMethodDef(write_int, METH_VARARGS),
+    NewMethodDef(write_float, METH_VARARGS),
+    NewMethodDef(write_bool, METH_VARARGS),
+    NewMethodDef(write_string, METH_VARARGS),
+    NewMethodDef(write_bytes, METH_VARARGS),
+    NewMethodDef(write_dict, METH_VARARGS),
+    NewMethodDef(write_list, METH_VARARGS),
+    NewMethodDef(write_set, METH_VARARGS),
+    NewMethodDef(write_tuple, METH_VARARGS),
+    NewMethodDef(write_datetime, METH_VARARGS),
+    NewMethodDef(write_path, METH_VARARGS),
+    NewMethodDef(write_model, METH_VARARGS),
+    NewMethodDef(write, METH_VARARGS),
+    NewMethodDef(get, METH_NOARGS),
     {nullptr, nullptr, 0} /* Sentinel */
 };
 
-void init(PyTypeObject *TypeObject) {
+#undef NewMethodDef
+
+} // namespace byterw::writer
+
+void byterw::writer::init(PyTypeObject *TypeObject) {
   //   TypeObject->ob_base = {{{1}, (0)}, (0)};
   //   TypeObject->tp_name = "byterw.ByteWriter";
   TypeObject->tp_basicsize = sizeof(ByteWriter);
@@ -326,5 +333,3 @@ void init(PyTypeObject *TypeObject) {
   // TypeObject->tp_members = members;
   TypeObject->tp_new = ByteWriter_new;
 }
-
-} // namespace byterw::writer

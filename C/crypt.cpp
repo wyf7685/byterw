@@ -57,7 +57,6 @@ PyObject *decrypt(PyObject *bytes, long long key) {
     data[i] = basic_charset[charset.find((buffer[i] + 7685) % 256)];
 
   auto b64 = PyBytes_FromStringAndSize(data, length);
-  // std::cout << (char *)PyUnicode_DATA(PyObject_Repr(b64)) << '\n';
   delete[] data;
   return PyObject_CallOneArg(pyobj::load(pyobj::b64decode), b64);
 }

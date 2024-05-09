@@ -26,11 +26,11 @@ PyObject *vt2t(ValueType vt) {
   case byterw::ValueType::Tuple:
     return (PyObject *)&PyTuple_Type;
   case byterw::ValueType::Datetime:
-    return pyobj::load(pyobj::datetime);
+    return pyobj::load(pyobj::datetime, false);
   case byterw::ValueType::Path:
-    return pyobj::load(pyobj::Path);
+    return pyobj::load(pyobj::Path, false);
   case byterw::ValueType::Model:
-    return pyobj::load(pyobj::BaseModel);
+    return pyobj::load(pyobj::BaseModel, false);
   case byterw::ValueType::Unsupported:
     PyErr_SetString(PyExc_TypeError, "Unsupported type");
     return nullptr;
@@ -121,27 +121,30 @@ PyObject *BReader::read_dict() {
     return nullptr;
   }
 
+  PyObject *key = nullptr, *value = nullptr;
+  auto clean = [&]() -> void {
+    Py_XDECREF(pydict), Py_XDECREF(key), Py_XDECREF(value);
+  };
+
   for (Py_ssize_t i = 0; i < length; ++i) {
-    PyObject *key = read_object(read_sign());
+    key = read_object(read_sign());
     if (key == nullptr) {
-      Py_DECREF(pydict);
       PyErr_SetString(PyExc_RuntimeError, "Error reading key object");
+      clean();
       return nullptr;
     }
-    PyObject *value = read_object(read_sign());
+    value = read_object(read_sign());
     if (value == nullptr) {
-      Py_DECREF(pydict);
-      Py_DECREF(key);
       PyErr_SetString(PyExc_RuntimeError, "Error reading value object");
+      clean();
       return nullptr;
     }
     if (PyDict_SetItem(pydict, key, value) < 0) {
-      Py_DECREF(pydict);
-      Py_DECREF(key);
-      Py_DECREF(value);
       PyErr_SetString(PyExc_RuntimeError, "Error setting dict item");
+      clean();
       return nullptr;
     }
+    key = value = nullptr;
   }
 
   return pydict;
