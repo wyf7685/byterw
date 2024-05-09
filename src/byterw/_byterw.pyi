@@ -11,11 +11,13 @@ from typing import (
     Set,
     Tuple,
     TypeAlias,
+    TypeVar,
     Union,
 )
 
 from pydantic import BaseModel
 
+_T = TypeVar("_T")
 ValidType: TypeAlias = Union[
     None,
     int,
@@ -47,7 +49,7 @@ class ByteReader:
     def read_tuple(self) -> Tuple[Any, ...]: ...
     def read_datetime(self) -> datetime: ...
     def read_path(self) -> Path: ...
-    def read_model[T](self, __T: Optional[type[T]] = None) -> T: ...
+    def read_model(self, __T: Optional[type[_T]] = None) -> _T: ...
     def read(self) -> ValidType: ...
 
 class ByteWriter:
