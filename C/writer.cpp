@@ -51,7 +51,7 @@ BYTERW_NO_DISCARD bool BWriter::write_double(PyObject *value, int precision) {
 
 BYTERW_NO_DISCARD bool BWriter::write_bool(bool value) {
   buffer.append(value);
-  return 0;
+  return true;
 }
 
 BYTERW_NO_DISCARD bool BWriter::write_bool(PyObject *value) {
