@@ -9,12 +9,14 @@
 #define BYTERW_NO_DISCARD [[nodiscard]]
 
 #ifndef BYTERW_VERSION
-#define BYTERW_VERSION "Unkown"
+#define BYTERW_VERSION "1.0.0"
 #endif
 
 namespace byterw {
 
 using std::string;
+
+static const string VERSION = BYTERW_VERSION;
 
 enum class ValueType {
   Null = 0,

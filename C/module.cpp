@@ -7,6 +7,8 @@
 #include "unicodeobject.h"
 
 #include <functional>
+#include <iostream>
+#include <ostream>
 
 namespace byterw::module {
 
@@ -36,7 +38,7 @@ PyMODINIT_FUNC PyInit__byterw(void) {
       return nullptr;
   }
 
-  PyObject *version_string = PyUnicode_FromString(BYTERW_VERSION);
+  PyObject *version_string = PyUnicode_FromString(byterw::VERSION.c_str());
   if (!version_string)
     return nullptr;
 

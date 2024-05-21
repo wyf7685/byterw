@@ -2,7 +2,7 @@ import platform
 
 from setuptools import Extension, setup
 
-VERSION = "0.2.3"
+VERSION = '"0.2.3"'
 
 if platform.system() == "Windows":
     cxx_std_arg = "/std:c++20"  # MSVC
@@ -30,7 +30,7 @@ extensions = [
 
 setup(
     name="byterw",
-    version=VERSION,
+    version=VERSION.strip('"'),
     description="byterw module by wyf7685",
     author="wyf7685",
     author_email="69091901+wyf7685@users.noreply.github.com",
