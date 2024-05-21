@@ -7,8 +7,6 @@
 #include "unicodeobject.h"
 
 #include <functional>
-#include <iostream>
-#include <ostream>
 
 namespace byterw::module {
 
