@@ -8,6 +8,10 @@
 
 #define BYTERW_NO_DISCARD [[nodiscard]]
 
+#ifndef BYTERW_VERSION
+#define BYTERW_VERSION "Unkown"
+#endif
+
 namespace byterw {
 
 using std::string;

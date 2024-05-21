@@ -32,7 +32,7 @@ pip install byterw-*.whl
 
 - 从源码编译安装
 
-> 注意: 该方式需要在你的系统上配置 C 编译器
+> 注意: 该方式需要在你的系统上配置 C++ 编译器
 
 ```sh
 pip install git+https://github.com/wyf7685/byterw.git@main
@@ -154,7 +154,7 @@ Path("somedata").write_bytes(
 
 如果需要自行构建 `byterw`, 可以参考如下步骤
 
-> 注: 由于项目使用 C 实现部分逻辑, 构建模块需要在本地安装 C 编译器
+> 注: 由于项目使用 C++ 实现部分逻辑, 构建模块需要在本地安装 C++ 编译器
 
 1. 安装 `Python` 并配置环境变量
 

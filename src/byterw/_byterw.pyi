@@ -35,6 +35,8 @@ ValidType: TypeAlias = Union[
     BaseModel,
 ]
 
+__version__: str
+
 class ByteReader:
     def __init__(self, buffer: Buffer, key: Hashable = None) -> None: ...
     def any(self) -> bool: ...

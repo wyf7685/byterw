@@ -32,7 +32,7 @@ pip install byterw-*.whl
 
 - Install from source code compilation
 
-> Note: This method requires configuring a C compiler on your system
+> Note: This method requires configuring a C++ compiler on your system
 
 ```sh
 pip install git+https://github.com/wyf7685/byterw.git@main
@@ -154,7 +154,7 @@ Path("somedata").write_bytes(
 
 If you need to build `byterw` yourself, you can follow these steps
 
-> Note: As the project uses C to implement some logic, building the module requires installing a C compiler locally
+> Note: As the project uses C++ to implement some logic, building the module requires installing a C++ compiler locally
 
 1. Install Python and configure environment variables
 

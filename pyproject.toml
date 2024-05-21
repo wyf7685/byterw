@@ -1,10 +1,8 @@
 [project]
 name = "byterw"
-version = "0.2.2"
+version = "0.2.3"
 description = "En(De)crypt Python objects into bytes"
-authors = [
-    { name = "wyf7685", email = "69091901+wyf7685@users.noreply.github.com" },
-]
+authors = [{ name = "wyf7685", email = "wyf7685@163.com" }]
 dependencies = []
 requires-python = ">=3.10,<4.0"
 readme = "README.md"
@@ -19,16 +17,8 @@ build-backend = "setuptools.build_meta"
 distribution = true
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "setuptools>=69.5.1",
-    "mypy>=1.9.0",
-    "pytest>=8.1.1",
-    "pydantic>=2.7.1",
-]
+dev = ["setuptools>=69.5.1", "mypy>=1.9.0", "pytest>=8.1.1", "pydantic>=2.7.1"]
 
 [tool.pdm.scripts]
 instdev = "pdm install --no-editable --dev"
-test = { composite = [
-    "mypy src/byterw",
-    "pytest tests",
-] }
+test = { composite = ["mypy src/byterw", "pytest tests"] }

@@ -1,6 +1,10 @@
 #include "common.h"
+#include "modsupport.h"
+#include "object.h"
 #include "pyreader.h"
+#include "pytypedefs.h"
 #include "pywriter.h"
+#include "unicodeobject.h"
 
 #include <functional>
 
@@ -32,6 +36,10 @@ PyMODINIT_FUNC PyInit__byterw(void) {
       return nullptr;
   }
 
+  PyObject *version_string = PyUnicode_FromString(BYTERW_VERSION);
+  if (!version_string)
+    return nullptr;
+
   // Initial module object
   PyObject *module = PyModule_Create(&byterw::module::module);
   if (!module)
@@ -42,6 +50,9 @@ PyMODINIT_FUNC PyInit__byterw(void) {
     Py_INCREF(t.type);
     PyModule_AddObject(module, t.name, (PyObject *)t.type);
   }
+
+  Py_INCREF(version_string);
+  PyModule_AddObject(module, "__version__", version_string);
 
   return module;
 }
