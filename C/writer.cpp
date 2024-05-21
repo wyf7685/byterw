@@ -3,8 +3,6 @@
 #include "common.h"
 #include "pyobj.h"
 
-#include <string>
-
 namespace byterw::writer::inner {
 
 void BWriter::write_sign(ValueType vt) { buffer.append(static_cast<char>(vt)); }
@@ -173,11 +171,11 @@ BYTERW_NO_DISCARD bool BWriter::write_path(PyObject *value) {
 
 BYTERW_NO_DISCARD bool BWriter::write_model(PyObject *value) {
   PyObject *field_dict = PyObject_GetAttrString(value, "model_fields");
-  if (!write_long(PyObject_Length(field_dict)) )
+  if (!write_long(PyObject_Length(field_dict)))
     return false;
 
   std::string model_name(Py_TYPE(value)->tp_name);
-  if (!write_bytes(model_name.c_str(), model_name.length()) )
+  if (!write_bytes(model_name.c_str(), model_name.length()))
     return false;
 
   PyObject *field_dict_keys = PyDict_Keys(field_dict);
@@ -194,7 +192,7 @@ BYTERW_NO_DISCARD bool BWriter::write_model(PyObject *value) {
       return false;
     PyObject *field_value =
         PyObject_GetAttrString(value, (char *)PyUnicode_DATA(field_name));
-    if (field_value == nullptr || !write_object(field_value, true) )
+    if (field_value == nullptr || !write_object(field_value, true))
       return false;
   }
   return true;
