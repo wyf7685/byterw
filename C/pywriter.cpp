@@ -298,9 +298,9 @@ static PyObject *get(ByteWriter *self, PyObject *args) {
 
 PyTypeObject *byterw::writer::init() {
 
-  static PyMemberDef members[] = {
-      {nullptr}, /* Sentinel */
-  };
+  // static PyMemberDef members[] = {
+  //     {nullptr}, /* Sentinel */
+  // };
 
   static PyMethodDef methods[] = {
       NewMethodDef(write_none, METH_VARARGS),
@@ -330,7 +330,7 @@ PyTypeObject *byterw::writer::init() {
       // .tp_repr = (reprfunc)repr,
       .tp_flags = Py_TPFLAGS_DEFAULT,
       .tp_methods = methods,
-      .tp_members = members,
+      // .tp_members = members,
       .tp_new = ByteWriter_new,
   };
   return &TypeObject;
