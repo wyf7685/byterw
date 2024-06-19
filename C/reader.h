@@ -16,7 +16,9 @@ public:
   BReader(const unsigned char *buf, std::size_t bufSize);
   ~BReader();
 
-  inline bool readable() const noexcept { return ptr - buffer < size; }
+  inline bool readable() const noexcept {
+    return static_cast<std::size_t>(ptr - buffer) < size;
+  }
   ValueType read_sign();
   PyObject *read_none();
   PyObject *read_long();

@@ -34,6 +34,6 @@ public:
   BYTERW_NO_DISCARD bool write_object(PyObject *obj, bool with_sign = false);
 };
 
-static ValueType get_vt(PyObject *obj);
+ValueType get_vt(PyObject *obj);
 
 } // namespace byterw::writer::inner

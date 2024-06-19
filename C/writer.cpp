@@ -252,7 +252,7 @@ BYTERW_NO_DISCARD bool BWriter::write_object(PyObject *obj, bool with_sign) {
   return false;
 }
 
-static ValueType get_vt(PyObject *obj) {
+ValueType get_vt(PyObject *obj) {
   // fast path for `None`
   if (Py_IsNone(obj))
     return ValueType::Null;

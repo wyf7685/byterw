@@ -4,11 +4,6 @@
 
 namespace byterw::writer {
 
-static PyTypeObject TypeObject = {
-    .ob_base = {{{1}, (0)}, (0)},
-    .tp_name = "byterw.ByteWriter",
-};
-
-void init(PyTypeObject *);
+PyTypeObject *init();
 
 } // namespace byterw::writer

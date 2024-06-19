@@ -291,45 +291,49 @@ static PyObject *get(ByteWriter *self, PyObject *args) {
 
 // ========== Method end ==========
 
-// static PyMemberDef members[] = {
-//     {nullptr}, /* Sentinel */
-// };
-
 #define NewMethodDef(identifier, flag)                                         \
   { #identifier, (PyCFunction)identifier, flag }
 
-static PyMethodDef methods[] = {
-    NewMethodDef(write_none, METH_VARARGS),
-    NewMethodDef(write_int, METH_VARARGS),
-    NewMethodDef(write_float, METH_VARARGS),
-    NewMethodDef(write_bool, METH_VARARGS),
-    NewMethodDef(write_string, METH_VARARGS),
-    NewMethodDef(write_bytes, METH_VARARGS),
-    NewMethodDef(write_dict, METH_VARARGS),
-    NewMethodDef(write_list, METH_VARARGS),
-    NewMethodDef(write_set, METH_VARARGS),
-    NewMethodDef(write_tuple, METH_VARARGS),
-    NewMethodDef(write_datetime, METH_VARARGS),
-    NewMethodDef(write_path, METH_VARARGS),
-    NewMethodDef(write_model, METH_VARARGS),
-    NewMethodDef(write, METH_VARARGS),
-    NewMethodDef(get, METH_NOARGS),
-    {nullptr, nullptr, 0} /* Sentinel */
-};
-
-#undef NewMethodDef
-
 } // namespace byterw::writer
 
-void byterw::writer::init(PyTypeObject *TypeObject) {
-  //   TypeObject->ob_base = {{{1}, (0)}, (0)};
-  //   TypeObject->tp_name = "byterw.ByteWriter";
-  TypeObject->tp_basicsize = sizeof(ByteWriter);
-  TypeObject->tp_itemsize = 0;
-  TypeObject->tp_dealloc = (destructor)ByteWriter_dealloc;
-  // TypeObject->tp_repr = (reprfunc)repr;
-  TypeObject->tp_flags = Py_TPFLAGS_DEFAULT;
-  TypeObject->tp_methods = methods;
-  // TypeObject->tp_members = members;
-  TypeObject->tp_new = ByteWriter_new;
+PyTypeObject *byterw::writer::init() {
+
+  static PyMemberDef members[] = {
+      {nullptr}, /* Sentinel */
+  };
+
+  static PyMethodDef methods[] = {
+      NewMethodDef(write_none, METH_VARARGS),
+      NewMethodDef(write_int, METH_VARARGS),
+      NewMethodDef(write_float, METH_VARARGS),
+      NewMethodDef(write_bool, METH_VARARGS),
+      NewMethodDef(write_string, METH_VARARGS),
+      NewMethodDef(write_bytes, METH_VARARGS),
+      NewMethodDef(write_dict, METH_VARARGS),
+      NewMethodDef(write_list, METH_VARARGS),
+      NewMethodDef(write_set, METH_VARARGS),
+      NewMethodDef(write_tuple, METH_VARARGS),
+      NewMethodDef(write_datetime, METH_VARARGS),
+      NewMethodDef(write_path, METH_VARARGS),
+      NewMethodDef(write_model, METH_VARARGS),
+      NewMethodDef(write, METH_VARARGS),
+      NewMethodDef(get, METH_NOARGS),
+      {nullptr, nullptr, 0} /* Sentinel */
+  };
+
+  static PyTypeObject TypeObject = {
+      .ob_base = {{{1}, (0)}, (0)},
+      .tp_name = "byterw.ByteWriter",
+      .tp_basicsize = sizeof(ByteWriter),
+      .tp_itemsize = 0,
+      .tp_dealloc = (destructor)ByteWriter_dealloc,
+      // .tp_repr = (reprfunc)repr,
+      .tp_flags = Py_TPFLAGS_DEFAULT,
+      .tp_methods = methods,
+      .tp_members = members,
+      .tp_new = ByteWriter_new,
+  };
+  return &TypeObject;
 }
+
+#undef NewMethodDef

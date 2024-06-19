@@ -9,10 +9,10 @@ namespace byterw::module {
 static struct {
   const char *name;
   PyTypeObject *type;
-  std::function<void(PyTypeObject *)> init;
+  std::function<PyTypeObject *()> init;
 } types[] = {
-    {"ByteWriter", &writer::TypeObject, writer::init},
-    {"ByteReader", &reader::TypeObject, reader::init},
+    {"ByteWriter", nullptr, writer::init},
+    {"ByteReader", nullptr, reader::init},
 };
 
 static struct PyModuleDef module = {
@@ -27,12 +27,12 @@ PyMODINIT_FUNC PyInit__byterw(void) {
 
   // Initialize type objects
   for (auto &t : byterw::module::types) {
-    t.init(t.type);
+    t.type = t.init();
     if (PyType_Ready(t.type) < 0)
       return nullptr;
   }
 
-  PyObject *version_string = PyUnicode_FromString(byterw::VERSION.c_str());
+  PyObject *version_string = PyUnicode_FromString(byterw::VERSION);
   if (!version_string)
     return nullptr;
 

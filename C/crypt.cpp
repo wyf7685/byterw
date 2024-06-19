@@ -17,15 +17,10 @@ static const string basic_charset =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 static string get_charset(long long key) noexcept {
-  static std::unordered_map<long long, string> cache;
-
-  if (cache.find(key) != cache.end())
-    return cache[key];
-
   std::mt19937 gen(key);
-  string charset(basic_charset.substr(0, 64));
+  string charset{basic_charset.substr(0, 64)};
   std::shuffle(charset.begin(), charset.end(), gen);
-  return cache[key] = charset + '=';
+  return charset + '=';
 }
 
 PyObject *encrypt(PyObject *bytes, long long key) {

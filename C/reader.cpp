@@ -65,10 +65,10 @@ PyObject *BReader::read_long() {
   unsigned char *bytes = (unsigned char *)PyBytes_AS_STRING(pybytes);
 
   memcpy(bytes, ptr, length);
-  ptr += length;
-
   PyObject *pyint = _PyLong_FromByteArray(bytes, length, false, true);
   Py_DECREF(pybytes);
+  if (pyint != nullptr)
+    ptr += length;
   return pyint;
 }
 
@@ -332,6 +332,7 @@ PyObject *BReader::read_object(ValueType vt) {
   case byterw::ValueType::Model:
     return read_model();
   case byterw::ValueType::Unsupported:
+  default:
     PyErr_SetString(PyExc_TypeError, "Unsupported type");
     return nullptr;
   }

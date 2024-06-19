@@ -158,45 +158,50 @@ static PyObject *any(ByteReader *self, PyObject *args) {
 
 // ========== Method end ==========
 
-// static PyMemberDef members[] = {
-//     {nullptr}, /* Sentinel */
-// };
+} // namespace byterw::reader
 
 #define NewMethodDef(identifier, flag)                                         \
   { #identifier, (PyCFunction)identifier, flag }
 
-static PyMethodDef methods[] = {
-    NewMethodDef(read_none, METH_NOARGS),
-    NewMethodDef(read_int, METH_NOARGS),
-    NewMethodDef(read_float, METH_NOARGS),
-    NewMethodDef(read_bool, METH_NOARGS),
-    NewMethodDef(read_string, METH_NOARGS),
-    NewMethodDef(read_bytes, METH_NOARGS),
-    NewMethodDef(read_dict, METH_NOARGS),
-    NewMethodDef(read_list, METH_NOARGS),
-    NewMethodDef(read_set, METH_NOARGS),
-    NewMethodDef(read_tuple, METH_NOARGS),
-    NewMethodDef(read_datetime, METH_NOARGS),
-    NewMethodDef(read_path, METH_NOARGS),
-    NewMethodDef(read_model, METH_VARARGS),
-    NewMethodDef(read, METH_NOARGS),
-    NewMethodDef(any, METH_NOARGS),
-    {nullptr, nullptr, 0} /* Sentinel */
-};
+PyTypeObject *byterw::reader::init() {
+
+  static PyMemberDef members[] = {
+      {nullptr}, /* Sentinel */
+  };
+
+  static PyMethodDef methods[] = {
+      NewMethodDef(read_none, METH_NOARGS),
+      NewMethodDef(read_int, METH_NOARGS),
+      NewMethodDef(read_float, METH_NOARGS),
+      NewMethodDef(read_bool, METH_NOARGS),
+      NewMethodDef(read_string, METH_NOARGS),
+      NewMethodDef(read_bytes, METH_NOARGS),
+      NewMethodDef(read_dict, METH_NOARGS),
+      NewMethodDef(read_list, METH_NOARGS),
+      NewMethodDef(read_set, METH_NOARGS),
+      NewMethodDef(read_tuple, METH_NOARGS),
+      NewMethodDef(read_datetime, METH_NOARGS),
+      NewMethodDef(read_path, METH_NOARGS),
+      NewMethodDef(read_model, METH_VARARGS),
+      NewMethodDef(read, METH_NOARGS),
+      NewMethodDef(any, METH_NOARGS),
+      {nullptr, nullptr, 0} /* Sentinel */
+  };
+
+  static PyTypeObject TypeObject = {
+      .ob_base = {{{1}, (0)}, (0)},
+      .tp_name = "byterw.ByteReader",
+      .tp_basicsize = sizeof(ByteReader),
+      .tp_itemsize = 0,
+      .tp_dealloc = (destructor)ByteReader_dealloc,
+      // .tp_repr = (reprfunc)repr,
+      .tp_flags = Py_TPFLAGS_DEFAULT,
+      .tp_methods = methods,
+      .tp_members = members,
+      .tp_new = ByteReader_new,
+  };
+
+  return &TypeObject;
+}
 
 #undef NewMethodDef
-
-} // namespace byterw::reader
-
-void byterw::reader::init(PyTypeObject *TypeObject) {
-  // TypeObject->ob_base = {{{1}, (0)}, (0)};
-  // TypeObject->tp_name = "byterw.ByteReader";
-  TypeObject->tp_basicsize = sizeof(ByteReader);
-  TypeObject->tp_itemsize = 0;
-  TypeObject->tp_dealloc = (destructor)ByteReader_dealloc;
-  // TypeObject->tp_repr = (reprfunc)repr;
-  TypeObject->tp_flags = Py_TPFLAGS_DEFAULT;
-  TypeObject->tp_methods = methods;
-  // TypeObject->tp_members = members;
-  TypeObject->tp_new = ByteReader_new;
-}
