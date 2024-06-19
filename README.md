@@ -1,10 +1,14 @@
 # byterw
 
+<div align="center">
+
 [![build](https://github.com/wyf7685/byterw/actions/workflows/build.yml/badge.svg)](https://github.com/wyf7685/byterw/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/wyf7685/byterw/graph/badge.svg?token=3PGRN98Y25)](https://codecov.io/gh/wyf7685/byterw)
 [![license](https://img.shields.io/github/license/wyf7685/byterw.svg)](https://github.com/wyf7685/byterw/blob/main/LICENSE)
 
-[`English`](https://github.com/wyf7685/byterw/blob/main/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/blob/main/README.zh.md)
+**&gt; English &lt;** | [`简体中文`](README.zh.md)
+
+</div>
 
 ## Introduction
 
@@ -156,9 +160,9 @@ If you need to build `byterw` yourself, you can follow these steps
 
 > Note: As the project uses C++ to implement some logic, building the module requires installing a C++ compiler locally
 
-1. Install Python and configure environment variables
+1. Install [`Python`](https://www.python.org/) and configure environment variables
 
-2. Install package manager `pdm`
+2. Install package manager [`pdm`](https://github.com/pdm-project/pdm)
 
 ```sh
 pip install -U pdm

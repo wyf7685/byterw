@@ -1,10 +1,14 @@
 # byterw
 
+<div align="center">
+
 [![build](https://github.com/wyf7685/byterw/actions/workflows/build.yml/badge.svg)](https://github.com/wyf7685/byterw/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/wyf7685/byterw/graph/badge.svg?token=3PGRN98Y25)](https://codecov.io/gh/wyf7685/byterw)
-[![license](https://img.shields.io/github/license/wyf7685/byterw.svg)](https://github.com/wyf7685/byterw/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/wyf7685/byterw.svg)](LICENSE)
 
-[`English`](https://github.com/wyf7685/byterw/blob/main/README.md) | [`简体中文`](https://github.com/wyf7685/byterw/blob/main/README.zh.md)
+[`English`](README.md) | **&gt; 简体中文 &lt;**
+
+</div>
 
 ## 简介
 
@@ -156,9 +160,9 @@ Path("somedata").write_bytes(
 
 > 注: 由于项目使用 C++ 实现部分逻辑, 构建模块需要在本地安装 C++ 编译器
 
-1. 安装 `Python` 并配置环境变量
+1. 安装 [`Python`](https://www.python.org/) 并配置环境变量
 
-2. 安装 包管理工具 `pdm`
+2. 安装 包管理工具 [`pdm`](https://github.com/pdm-project/pdm)
 
 ```sh
 pip install -U pdm
