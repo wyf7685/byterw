@@ -1,10 +1,6 @@
 #include "common.h"
-#include "modsupport.h"
-#include "object.h"
 #include "pyreader.h"
-#include "pytypedefs.h"
 #include "pywriter.h"
-#include "unicodeobject.h"
 
 #include <functional>
 

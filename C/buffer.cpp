@@ -6,10 +6,10 @@
 
 namespace byterw {
 
-void Buffer::append(unsigned char c) { buf.emplace_back(c); }
+void Buffer::append(elem c) { buf.emplace_back(c); }
 
-void Buffer::extend(const unsigned char *str, size_t length) {
-  const unsigned char *p = str;
+void Buffer::extend(const elem *str, size_t length) {
+  const elem *p = str;
   while (static_cast<size_t>(p - str) < length)
     append(*p++);
 }
@@ -21,10 +21,10 @@ void Buffer::extend(const string &str) {
 
 void Buffer::extend(const Buffer &other) { extend(other.get(), other.size()); }
 
-const unsigned char *Buffer::get() const noexcept {
-  unsigned char *str = new unsigned char[buf.size()];
-  unsigned char *p = str;
-  for (const unsigned char &c : buf)
+const Buffer ::elem *Buffer::get() const noexcept {
+  elem *str = new elem[buf.size()];
+  elem *p = str;
+  for (const elem &c : buf)
     *p++ = c;
   return str;
 }

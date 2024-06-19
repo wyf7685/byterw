@@ -9,7 +9,7 @@
 #define BYTERW_NO_DISCARD [[nodiscard]]
 
 #ifndef BYTERW_VERSION
-#define BYTERW_VERSION "1.0.0"
+#define BYTERW_VERSION "0.1.0"
 #endif
 
 namespace byterw {
@@ -34,39 +34,5 @@ enum class ValueType {
   Model,
   Unsupported = (1 << 7) - 1,
 };
-
-/*
- * pathlib.Path
- *
- * datetime.datetime
- *
- * pydantic.BaseModel (optional)
- *
- * typing._UnionGenericAlias -> typing.Union
- *
- * typing.GenericAlias -> list[str]
- *
- * typing._GenericAlias -> typing.List[str]
- *
- * typing._SpecialGenericAlias -> ...?
- */
-
-// enum class SpecialTypes : int {
-//   Path,
-//   datetime,
-//   datetime_from_timestamp,
-//   BaseModel,
-//   _UGA,
-//   GA,
-//   _GA,
-//   _SGA,
-// };
-
-// static PyObject *special_types[10];
-
-// BYTERW_NO_DISCARD static inline bool special_types_initialized() {
-//   // return special_types.size();
-//   return true;
-// }
 
 } // namespace byterw
