@@ -1,6 +1,8 @@
 #include "reader.h"
 #include "pyobj.h"
 
+#include <cmath>
+
 namespace byterw::reader::inner {
 
 PyObject *vt2t(ValueType vt) {
