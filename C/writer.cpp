@@ -3,6 +3,8 @@
 #include "common.h"
 #include "pyobj.h"
 
+#include <cmath>
+
 namespace byterw::writer::inner {
 
 void BWriter::write_sign(ValueType vt) { buffer.append(static_cast<char>(vt)); }
