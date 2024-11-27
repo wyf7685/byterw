@@ -26,8 +26,6 @@ static PyObject *real_load(int v) {
   switch (v) {
   case type:
     return make_cache(getattr(import("builtins"), "type"));
-  case hash:
-    return make_cache(getattr(import("builtins"), "hash"));
 
   case Path:
     return make_cache(getattr(import("pathlib"), "Path"));

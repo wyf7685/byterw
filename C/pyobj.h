@@ -7,8 +7,6 @@ namespace byterw::pyobj {
 /*
  * builtins.type
  *
- * builtins.hash
- *
  * pathlib.Path
  *
  * datetime.datetime
@@ -34,7 +32,6 @@ namespace byterw::pyobj {
 
 enum : int {
   type,
-  hash,
   Path,
   datetime,
   datetime_from_timestamp,

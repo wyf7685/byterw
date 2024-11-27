@@ -8,9 +8,21 @@
 namespace byterw::crypt {
 
 long long parse_key(PyObject *obj) {
-  auto hashfunc = pyobj::load(pyobj::hash);
-  auto hashed = PyObject_CallOneArg(hashfunc, obj);
-  return PyLong_AsLongLong(hashed);
+  auto unicode = PyUnicode_FromObject(obj);
+
+  Py_ssize_t size = -1;
+  const char *buf = PyUnicode_AsUTF8AndSize(unicode, &size);
+  if (size == -1) {
+    return 0;
+  }
+
+  long long result = 0;
+  for (Py_ssize_t i = 0; i < size; i++) {
+    result = (result * 7685 + buf[i]) % 5198892651;
+  }
+
+  Py_XDECREF(unicode);
+  return result;
 }
 
 static const string basic_charset =
